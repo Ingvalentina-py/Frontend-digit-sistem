@@ -1,4 +1,4 @@
-const API = "https://backend-digit-sistem.vercel.app/api";
+const API = "https://backend-digit-sistem.vercel.app";
 
 const sampleCanvas = document.getElementById("sampleCanvas");
 const sampleCtx = sampleCanvas.getContext("2d");
