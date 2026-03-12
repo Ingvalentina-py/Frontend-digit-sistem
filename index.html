@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Digit Recognizer (8x8)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Reconocedor de Dígitos (Optdigits 8x8)</h1>
+
+    <section class="card">
+      <h2>1) Ver ejemplo del dataset</h2>
+      <div class="row">
+        <label>Índice:
+          <input id="sampleIndex" type="number" value="0" min="0" />
+        </label>
+        <select id="sampleSplit">
+          <option value="test">test</option>
+          <option value="train">train</option>
+        </select>
+        <button id="btnLoadSample">Cargar</button>
+      </div>
+
+      <div class="row">
+        <div>
+          <div class="small">Etiqueta real:</div>
+          <div id="sampleLabel" class="big">-</div>
+        </div>
+        <canvas id="sampleCanvas" width="160" height="160"></canvas>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2) Dibujar un número y predecir</h2>
+      <div class="row">
+        <select id="modelSelect">
+          <option value="mlp">MLP</option>
+          <option value="svm">SVM</option>
+        </select>
+        <button id="btnClear">Limpiar</button>
+        <button id="btnPredict">Predecir</button>
+      </div>
+
+      <div class="row">
+        <canvas id="drawCanvas" width="240" height="240"></canvas>
+
+        <div>
+          <div class="small">Vista 8x8 generada:</div>
+          <canvas id="tinyCanvas" width="160" height="160"></canvas>
+          <div class="small">Predicción:</div>
+          <div id="predOut" class="big">-</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3) Métricas del modelo</h2>
+      <button id="btnMetrics">Cargar métricas</button>
+      <pre id="metricsOut"></pre>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
