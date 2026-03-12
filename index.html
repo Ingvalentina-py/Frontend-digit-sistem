@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Digit Recognizer</title>
+  <title>Reconocedor de Dígitos</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -14,48 +14,48 @@
   <div class="wrap">
     <header class="hero">
       <span class="badge">Machine Learning · Optdigits 8x8</span>
-      <h1>Handwritten Digit Recognizer</h1>
+      <h1>Reconocedor de Dígitos Escritos a Mano</h1>
       <p class="hero-text">
-        Interactive web app for exploring the Optdigits dataset, testing trained models,
-        and recognizing handwritten digits through a simple visual interface.
+        Aplicación web interactiva para visualizar muestras del dataset Optdigits,
+        probar modelos entrenados y reconocer dígitos escritos a mano de forma sencilla.
       </p>
     </header>
 
     <section class="card">
       <div class="section-head">
         <div>
-          <p class="section-kicker">Dataset Viewer</p>
-          <h2>1. View a dataset sample</h2>
+          <p class="section-kicker">Visualización del Dataset</p>
+          <h2>1. Ver una muestra del dataset</h2>
           <p class="section-desc">
-            Load a real sample from the training or test dataset and visualize how the digit
-            is represented in an 8x8 pixel grid.
+            Carga una muestra real del conjunto de entrenamiento o prueba y observa
+            cómo se representa el número en una cuadrícula de 8x8 píxeles.
           </p>
         </div>
       </div>
 
       <div class="row controls-row">
-        <label>Index:
+        <label>Índice:
           <input id="sampleIndex" type="number" value="0" min="0" />
         </label>
 
-        <label>Split:
+        <label>Conjunto:
           <select id="sampleSplit">
             <option value="test">test</option>
             <option value="train">train</option>
           </select>
         </label>
 
-        <button id="btnLoadSample">Load sample</button>
+        <button id="btnLoadSample">Cargar muestra</button>
       </div>
 
       <div class="row panel-row">
-        <div class="info-box">
-          <div class="small">True label</div>
+        <div class="info-box compact-info">
+          <div class="small">Etiqueta real</div>
           <div id="sampleLabel" class="big">-</div>
         </div>
 
-        <div class="canvas-box">
-          <div class="small canvas-title">8x8 preview</div>
+        <div class="canvas-box compact-canvas-box">
+          <div class="small canvas-title">Vista 8x8</div>
           <canvas id="sampleCanvas" width="160" height="160"></canvas>
         </div>
       </div>
@@ -64,41 +64,41 @@
     <section class="card">
       <div class="section-head">
         <div>
-          <p class="section-kicker">Live Prediction</p>
-          <h2>2. Draw a number and predict</h2>
+          <p class="section-kicker">Predicción en Vivo</p>
+          <h2>2. Dibuja un número y predice</h2>
           <p class="section-desc">
-            Draw a handwritten digit, choose a model, and let the system classify it based
-            on the 8x8 processed representation.
+            Dibuja un dígito, elige el modelo y deja que el sistema lo clasifique a
+            partir de la representación procesada en 8x8.
           </p>
         </div>
       </div>
 
       <div class="row controls-row">
-        <label>Model:
+        <label>Modelo:
           <select id="modelSelect">
             <option value="mlp">MLP</option>
             <option value="svm">SVM</option>
           </select>
         </label>
 
-        <button id="btnClear" class="btn-secondary">Clear</button>
-        <button id="btnPredict">Predict</button>
+        <button id="btnClear" class="btn-secondary">Limpiar</button>
+        <button id="btnPredict">Predecir</button>
       </div>
 
-      <div class="row draw-layout">
-        <div class="canvas-box large-box">
-          <div class="small canvas-title">Drawing area</div>
+      <div class="draw-layout-fixed">
+        <div class="canvas-box draw-box">
+          <div class="small canvas-title">Área de dibujo</div>
           <canvas id="drawCanvas" width="240" height="240"></canvas>
         </div>
 
-        <div class="side-panel">
-          <div class="canvas-box">
-            <div class="small canvas-title">Generated 8x8 view</div>
+        <div class="right-column">
+          <div class="canvas-box preview-box">
+            <div class="small canvas-title">Vista 8x8 generada</div>
             <canvas id="tinyCanvas" width="160" height="160"></canvas>
           </div>
 
           <div class="info-box prediction-box">
-            <div class="small">Prediction</div>
+            <div class="small">Predicción</div>
             <div id="predOut" class="big">-</div>
           </div>
         </div>
@@ -108,17 +108,17 @@
     <section class="card">
       <div class="section-head">
         <div>
-          <p class="section-kicker">Model Evaluation</p>
-          <h2>3. Metrics</h2>
+          <p class="section-kicker">Evaluación del Modelo</p>
+          <h2>3. Métricas</h2>
           <p class="section-desc">
-            Display model performance details including accuracy, confusion matrix,
-            and classification report generated from the test dataset.
+            Muestra el rendimiento de los modelos, incluyendo accuracy, matriz de confusión
+            y reporte de clasificación generado a partir del conjunto de prueba.
           </p>
         </div>
       </div>
 
       <div class="row controls-row">
-        <button id="btnMetrics">Load metrics</button>
+        <button id="btnMetrics">Cargar métricas</button>
       </div>
 
       <pre id="metricsOut"></pre>
