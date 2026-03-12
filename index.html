@@ -3,63 +3,130 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Digit Recognizer (8x8)</title>
+  <title>Digit Recognizer</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <div class="bg-blur bg-blur-1"></div>
+  <div class="bg-blur bg-blur-2"></div>
+  <div class="bg-grid"></div>
+
   <div class="wrap">
-    <h1>Reconocedor de Dígitos (Optdigits 8x8)</h1>
+    <header class="hero">
+      <span class="badge">Machine Learning · Optdigits 8x8</span>
+      <h1>Handwritten Digit Recognizer</h1>
+      <p class="hero-text">
+        Interactive web app for exploring the Optdigits dataset, testing trained models,
+        and recognizing handwritten digits through a simple visual interface.
+      </p>
+    </header>
 
     <section class="card">
-      <h2>1) Ver ejemplo del dataset</h2>
-      <div class="row">
-        <label>Índice:
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Dataset Viewer</p>
+          <h2>1. View a dataset sample</h2>
+          <p class="section-desc">
+            Load a real sample from the training or test dataset and visualize how the digit
+            is represented in an 8x8 pixel grid.
+          </p>
+        </div>
+      </div>
+
+      <div class="row controls-row">
+        <label>Index:
           <input id="sampleIndex" type="number" value="0" min="0" />
         </label>
-        <select id="sampleSplit">
-          <option value="test">test</option>
-          <option value="train">train</option>
-        </select>
-        <button id="btnLoadSample">Cargar</button>
+
+        <label>Split:
+          <select id="sampleSplit">
+            <option value="test">test</option>
+            <option value="train">train</option>
+          </select>
+        </label>
+
+        <button id="btnLoadSample">Load sample</button>
       </div>
 
-      <div class="row">
-        <div>
-          <div class="small">Etiqueta real:</div>
+      <div class="row panel-row">
+        <div class="info-box">
+          <div class="small">True label</div>
           <div id="sampleLabel" class="big">-</div>
         </div>
-        <canvas id="sampleCanvas" width="160" height="160"></canvas>
-      </div>
-    </section>
 
-    <section class="card">
-      <h2>2) Dibujar un número y predecir</h2>
-      <div class="row">
-        <select id="modelSelect">
-          <option value="mlp">MLP</option>
-          <option value="svm">SVM</option>
-        </select>
-        <button id="btnClear">Limpiar</button>
-        <button id="btnPredict">Predecir</button>
-      </div>
-
-      <div class="row">
-        <canvas id="drawCanvas" width="240" height="240"></canvas>
-
-        <div>
-          <div class="small">Vista 8x8 generada:</div>
-          <canvas id="tinyCanvas" width="160" height="160"></canvas>
-          <div class="small">Predicción:</div>
-          <div id="predOut" class="big">-</div>
+        <div class="canvas-box">
+          <div class="small canvas-title">8x8 preview</div>
+          <canvas id="sampleCanvas" width="160" height="160"></canvas>
         </div>
       </div>
     </section>
 
     <section class="card">
-      <h2>3) Métricas del modelo</h2>
-      <button id="btnMetrics">Cargar métricas</button>
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Live Prediction</p>
+          <h2>2. Draw a number and predict</h2>
+          <p class="section-desc">
+            Draw a handwritten digit, choose a model, and let the system classify it based
+            on the 8x8 processed representation.
+          </p>
+        </div>
+      </div>
+
+      <div class="row controls-row">
+        <label>Model:
+          <select id="modelSelect">
+            <option value="mlp">MLP</option>
+            <option value="svm">SVM</option>
+          </select>
+        </label>
+
+        <button id="btnClear" class="btn-secondary">Clear</button>
+        <button id="btnPredict">Predict</button>
+      </div>
+
+      <div class="row draw-layout">
+        <div class="canvas-box large-box">
+          <div class="small canvas-title">Drawing area</div>
+          <canvas id="drawCanvas" width="240" height="240"></canvas>
+        </div>
+
+        <div class="side-panel">
+          <div class="canvas-box">
+            <div class="small canvas-title">Generated 8x8 view</div>
+            <canvas id="tinyCanvas" width="160" height="160"></canvas>
+          </div>
+
+          <div class="info-box prediction-box">
+            <div class="small">Prediction</div>
+            <div id="predOut" class="big">-</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">Model Evaluation</p>
+          <h2>3. Metrics</h2>
+          <p class="section-desc">
+            Display model performance details including accuracy, confusion matrix,
+            and classification report generated from the test dataset.
+          </p>
+        </div>
+      </div>
+
+      <div class="row controls-row">
+        <button id="btnMetrics">Load metrics</button>
+      </div>
+
       <pre id="metricsOut"></pre>
     </section>
+
+    <footer class="footer">
+      <p>Made by Valentina</p>
+    </footer>
   </div>
 
   <script src="app.js"></script>
