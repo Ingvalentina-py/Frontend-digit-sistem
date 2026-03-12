@@ -1,4 +1,4 @@
-const API = "http://localhost:8000";
+const API = "https://backend-digit-sistem.vercel.app/api";
 
 const sampleCanvas = document.getElementById("sampleCanvas");
 const sampleCtx = sampleCanvas.getContext("2d");
@@ -9,17 +9,17 @@ const drawCtx = drawCanvas.getContext("2d");
 const tinyCanvas = document.getElementById("tinyCanvas");
 const tinyCtx = tinyCanvas.getContext("2d");
 
-function draw8x8OnCanvas(grid8x8, ctx, size=160) {
+function draw8x8OnCanvas(grid8x8, ctx, size = 160) {
   const cell = size / 8;
-  ctx.clearRect(0,0,size,size);
+  ctx.clearRect(0, 0, size, size);
 
-  for (let r=0;r<8;r++){
-    for (let c=0;c<8;c++){
+  for (let r = 0; r < 8; r++) {
+    for (let c = 0; c < 8; c++) {
       const v = grid8x8[r][c]; // típicamente 0..16 aprox
       // normalizamos a 0..255
       const intensity = Math.max(0, Math.min(255, Math.round((v / 16) * 255)));
       ctx.fillStyle = `rgb(${intensity},${intensity},${intensity})`;
-      ctx.fillRect(c*cell, r*cell, cell, cell);
+      ctx.fillRect(c * cell, r * cell, cell, cell);
     }
   }
 }
@@ -41,15 +41,15 @@ let drawing = false;
 
 function setupDrawing() {
   drawCtx.fillStyle = "black";
-  drawCtx.fillRect(0,0,drawCanvas.width, drawCanvas.height);
+  drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
 
   drawCtx.lineWidth = 18;
   drawCtx.lineCap = "round";
   drawCtx.strokeStyle = "white";
 
-  drawCanvas.addEventListener("mousedown", () => drawing = true);
-  drawCanvas.addEventListener("mouseup", () => drawing = false);
-  drawCanvas.addEventListener("mouseleave", () => drawing = false);
+  drawCanvas.addEventListener("mousedown", () => (drawing = true));
+  drawCanvas.addEventListener("mouseup", () => (drawing = false));
+  drawCanvas.addEventListener("mouseleave", () => (drawing = false));
 
   drawCanvas.addEventListener("mousemove", (e) => {
     if (!drawing) return;
@@ -59,21 +59,26 @@ function setupDrawing() {
 
     drawCtx.beginPath();
     drawCtx.moveTo(x, y);
-    drawCtx.lineTo(x+0.1, y+0.1);
+    drawCtx.lineTo(x + 0.1, y + 0.1);
     drawCtx.stroke();
   });
 }
 
 function clearDraw() {
   drawCtx.fillStyle = "black";
-  drawCtx.fillRect(0,0,drawCanvas.width, drawCanvas.height);
+  drawCtx.fillRect(0, 0, drawCanvas.width, drawCanvas.height);
   document.getElementById("predOut").textContent = "-";
 }
 document.getElementById("btnClear").onclick = clearDraw;
 
 // Convertir dibujo 240x240 -> 8x8 promedio por bloque
 function drawingTo8x8() {
-  const img = drawCtx.getImageData(0,0,drawCanvas.width, drawCanvas.height).data;
+  const img = drawCtx.getImageData(
+    0,
+    0,
+    drawCanvas.width,
+    drawCanvas.height,
+  ).data;
 
   const W = drawCanvas.width;
   const H = drawCanvas.height;
@@ -83,20 +88,20 @@ function drawingTo8x8() {
   const grid = [];
   const pixels64 = [];
 
-  for (let r=0;r<8;r++){
+  for (let r = 0; r < 8; r++) {
     const row = [];
-    for (let c=0;c<8;c++){
+    for (let c = 0; c < 8; c++) {
       let sum = 0;
       let count = 0;
 
-      const x0 = Math.floor(c*blockW);
-      const y0 = Math.floor(r*blockH);
-      const x1 = Math.floor((c+1)*blockW);
-      const y1 = Math.floor((r+1)*blockH);
+      const x0 = Math.floor(c * blockW);
+      const y0 = Math.floor(r * blockH);
+      const x1 = Math.floor((c + 1) * blockW);
+      const y1 = Math.floor((r + 1) * blockH);
 
-      for (let y=y0;y<y1;y++){
-        for (let x=x0;x<x1;x++){
-          const idx = (y*W + x)*4;
+      for (let y = y0; y < y1; y++) {
+        for (let x = x0; x < x1; x++) {
+          const idx = (y * W + x) * 4;
           // pixel blanco=255, negro=0 (tomamos canal R)
           const val = img[idx];
           sum += val;
@@ -128,7 +133,7 @@ document.getElementById("btnPredict").onclick = async () => {
   const res = await fetch(`${API}/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model, pixels: pixels64 })
+    body: JSON.stringify({ model, pixels: pixels64 }),
   });
 
   const data = await res.json();
@@ -139,7 +144,11 @@ document.getElementById("btnPredict").onclick = async () => {
 document.getElementById("btnMetrics").onclick = async () => {
   const res = await fetch(`${API}/metrics`);
   const data = await res.json();
-  document.getElementById("metricsOut").textContent = JSON.stringify(data, null, 2);
+  document.getElementById("metricsOut").textContent = JSON.stringify(
+    data,
+    null,
+    2,
+  );
 };
 
 setupDrawing();
