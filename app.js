@@ -1,8 +1,9 @@
-const API =
+const API = (
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:8000"
-    : "https://backend-digit-sistem.vercel.app/";
+    : "https://backend-digit-sistem.vercel.app"
+).replace(/\/+$/, "");
 
 const cipherInput = document.getElementById("cipherInput");
 const predictedLabel = document.getElementById("predictedLabel");
@@ -22,10 +23,19 @@ document.getElementById("btnClear").onclick = () => {
 };
 
 document.getElementById("btnSample").onclick = async () => {
-  const index = Math.floor(Math.random() * 10000);
-  const res = await fetch(`${API}/sample?index=${index}`);
-  const data = await res.json();
-  cipherInput.value = data.text;
+  try {
+    const index = Math.floor(Math.random() * 10000);
+    const res = await fetch(`${API}/sample?index=${index}`);
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.detail || "Error al cargar ejemplo");
+    }
+
+    cipherInput.value = data.text || "";
+  } catch (error) {
+    alert(error.message);
+  }
 };
 
 document.getElementById("btnAnalyze").onclick = async () => {
@@ -76,6 +86,11 @@ document.getElementById("btnMetrics").onclick = async () => {
   try {
     const res = await fetch(`${API}/metrics`);
     const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.detail || "Error al cargar métricas");
+    }
+
     metricsOut.textContent = JSON.stringify(data, null, 2);
   } catch (error) {
     metricsOut.textContent = error.message;
