@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Reconocedor de Dígitos</title>
+  <title>Detector de Cifrado</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -13,115 +13,77 @@
 
   <div class="wrap">
     <header class="hero">
-      <span class="badge">Machine Learning · Optdigits 8x8</span>
-      <h1>Reconocedor de Dígitos Escritos a Mano</h1>
+      <span class="badge">MLP · Clasificación de algoritmos</span>
+      <h1>Detector y Descifrador de Texto Cifrado</h1>
       <p class="hero-text">
-        Aplicación web interactiva para visualizar muestras del dataset Optdigits,
-        probar modelos entrenados y reconocer dígitos escritos a mano de forma sencilla.
+        Ingresa un texto y el sistema intentará identificar con qué algoritmo fue
+        cifrado. Después, realizará el descifrado automáticamente.
       </p>
     </header>
 
     <section class="card">
       <div class="section-head">
-        <div>
-          <p class="section-kicker">Visualización del Dataset</p>
-          <h2>1. Ver una muestra del dataset</h2>
-          <p class="section-desc">
-            Carga una muestra real del conjunto de entrenamiento o prueba y observa
-            cómo se representa el número en una cuadrícula de 8x8 píxeles.
-          </p>
-        </div>
+        <p class="section-kicker">Entrada</p>
+        <h2>1. Ingresa el texto cifrado</h2>
+        <p class="section-desc">
+          Puedes pegar un texto plano, Caesar, ROT13, Base64 o XOR hexadecimal.
+        </p>
       </div>
 
-      <div class="row controls-row">
-        <label>Índice:
-          <input id="sampleIndex" type="number" value="0" min="0" />
-        </label>
+      <textarea id="cipherInput" placeholder="Pega aquí el texto cifrado..."></textarea>
 
-        <label>Conjunto:
-          <select id="sampleSplit">
-            <option value="test">test</option>
-            <option value="train">train</option>
-          </select>
-        </label>
-
-        <button id="btnLoadSample">Cargar muestra</button>
-      </div>
-
-      <div class="row panel-row">
-        <div class="info-box compact-info">
-          <div class="small">Etiqueta real</div>
-          <div id="sampleLabel" class="big">-</div>
-        </div>
-
-        <div class="canvas-box compact-canvas-box">
-          <div class="small canvas-title">Vista 8x8</div>
-          <canvas id="sampleCanvas" width="160" height="160"></canvas>
-        </div>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="section-head">
-        <div>
-          <p class="section-kicker">Predicción en Vivo</p>
-          <h2>2. Dibuja un número y predice</h2>
-          <p class="section-desc">
-            Dibuja un dígito, elige el modelo y deja que el sistema lo clasifique a
-            partir de la representación procesada en 8x8.
-          </p>
-        </div>
-      </div>
-
-      <div class="row controls-row">
-        <label>Modelo:
-          <select id="modelSelect">
-            <option value="mlp">MLP</option>
-            <option value="svm">SVM</option>
-          </select>
-        </label>
-
+      <div class="actions">
+        <button id="btnAnalyze">Analizar y descifrar</button>
         <button id="btnClear" class="btn-secondary">Limpiar</button>
-        <button id="btnPredict">Predecir</button>
-      </div>
-
-      <div class="draw-layout-fixed">
-        <div class="canvas-box draw-box">
-          <div class="small canvas-title">Área de dibujo</div>
-          <canvas id="drawCanvas" width="240" height="240"></canvas>
-        </div>
-
-        <div class="right-column">
-          <div class="canvas-box preview-box">
-            <div class="small canvas-title">Vista 8x8 generada</div>
-            <canvas id="tinyCanvas" width="160" height="160"></canvas>
-          </div>
-
-          <div class="info-box prediction-box">
-            <div class="small">Predicción</div>
-            <div id="predOut" class="big">-</div>
-          </div>
-        </div>
+        <button id="btnSample" class="btn-secondary">Cargar ejemplo</button>
       </div>
     </section>
 
     <section class="card">
       <div class="section-head">
-        <div>
-          <p class="section-kicker">Evaluación del Modelo</p>
-          <h2>3. Métricas</h2>
-          <p class="section-desc">
-            Muestra el rendimiento de los modelos, incluyendo accuracy, matriz de confusión
-            y reporte de clasificación generado a partir del conjunto de prueba.
-          </p>
+        <p class="section-kicker">Resultado</p>
+        <h2>2. Resultado del análisis</h2>
+      </div>
+
+      <div class="results-grid">
+        <div class="info-box">
+          <div class="small">Algoritmo detectado</div>
+          <div id="predictedLabel" class="big">-</div>
+        </div>
+
+        <div class="info-box">
+          <div class="small">Confianza</div>
+          <div id="confidenceOut" class="medium">-</div>
         </div>
       </div>
 
-      <div class="row controls-row">
+      <div class="output-block">
+        <div class="small title-row">Texto descifrado</div>
+        <pre id="decryptedOut">-</pre>
+      </div>
+
+      <div class="output-block">
+        <div class="small title-row">Probabilidades por clase</div>
+        <pre id="probabilitiesOut">-</pre>
+      </div>
+
+      <div class="output-block">
+        <div class="small title-row">Detalles del descifrado</div>
+        <pre id="detailsOut">-</pre>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-head">
+        <p class="section-kicker">Evaluación</p>
+        <h2>3. Métricas del modelo</h2>
+      </div>
+
+      <div class="actions">
         <button id="btnMetrics">Cargar métricas</button>
       </div>
 
-      <pre id="metricsOut"></pre>
+      <pre id="metricsOut">-</pre>
     </section>
 
     <footer class="footer">
