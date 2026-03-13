@@ -7,7 +7,6 @@ const API = (
 
 const cipherInput = document.getElementById("cipherInput");
 const predictedLabel = document.getElementById("predictedLabel");
-const confidenceOut = document.getElementById("confidenceOut");
 const decryptedOut = document.getElementById("decryptedOut");
 const probabilitiesOut = document.getElementById("probabilitiesOut");
 const detailsOut = document.getElementById("detailsOut");
@@ -16,7 +15,6 @@ const metricsOut = document.getElementById("metricsOut");
 document.getElementById("btnClear").onclick = () => {
   cipherInput.value = "";
   predictedLabel.textContent = "-";
-  confidenceOut.textContent = "-";
   decryptedOut.textContent = "-";
   probabilitiesOut.textContent = "-";
   detailsOut.textContent = "-";
@@ -47,7 +45,6 @@ document.getElementById("btnAnalyze").onclick = async () => {
   }
 
   predictedLabel.textContent = "Analizando...";
-  confidenceOut.textContent = "-";
   decryptedOut.textContent = "-";
   probabilitiesOut.textContent = "-";
   detailsOut.textContent = "-";
@@ -68,11 +65,6 @@ document.getElementById("btnAnalyze").onclick = async () => {
     }
 
     predictedLabel.textContent = data.predicted_label || "-";
-    confidenceOut.textContent =
-      data.confidence !== null && data.confidence !== undefined
-        ? `${(data.confidence * 100).toFixed(2)}%`
-        : "-";
-
     decryptedOut.textContent = data.decrypted_text || "-";
     probabilitiesOut.textContent = JSON.stringify(data.probabilities, null, 2);
     detailsOut.textContent = JSON.stringify(data.decryption_details, null, 2);
