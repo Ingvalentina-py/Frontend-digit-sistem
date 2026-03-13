@@ -2,7 +2,7 @@ const API =
   window.location.hostname === "localhost" ||
   window.location.hostname === "127.0.0.1"
     ? "http://127.0.0.1:8000"
-    : "https://TU_BACKEND_URL.vercel.app";
+    : "https://backend-digit-sistem.vercel.app/";
 
 const cipherInput = document.getElementById("cipherInput");
 const predictedLabel = document.getElementById("predictedLabel");
